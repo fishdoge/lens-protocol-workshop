@@ -8,11 +8,13 @@ import Image from 'next/image'
 import { useProfile, usePublications } from '@lens-protocol/react-web'
 import { formatPicture } from '../../../utils'
 import ABI from '../../../abi.json'
+import Link from 'next/link'
 
 const CONTRACT_ADDRESS = '0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d'
 
 export default function Profile() {
   const [connected, setConnected] = useState<boolean>(false)
+  //const [connectedAccount,setconnectAccount] = useState();
   const [account, setAccount] = useState('')
 
   const pathName = usePathname()
@@ -28,8 +30,11 @@ export default function Profile() {
     if (!window.ethereum) return
     const provider = new ethers.providers.Web3Provider(window.ethereum as any)
     const addresses = await provider.listAccounts();
+    console.log('listAccounts ',addresses[0])
     if (addresses.length) {
       setConnected(true)
+      const add = addresses[0].slice(0,8)
+      setAccount(add)
     } else {
       setConnected(false)
     }
@@ -41,9 +46,13 @@ export default function Profile() {
       method: "eth_requestAccounts"
     })
     console.log('accounts: ', accounts)
-    accounts[0]
-    setAccount(account)
+    //accounts[0]
+    const acc = accounts[0].slice(0,6);
+    console.log(acc)
+    setAccount(acc)
     setConnected(true)
+
+
   }
 
   function getSigner() {
@@ -73,9 +82,16 @@ export default function Profile() {
   return (
     <div>
       <div className="p-14">
+        <Link href={`/`}>
+          <button className="bg-zinc-400 text-black px-14 py-4 rounded-full mb-4" >Home</button>
+        </Link>
+      </div>
+      <div className="p-14">
         {
-          !connected && (
+          !connected ? (
             <button className="bg-white text-black px-14 py-4 rounded-full mb-4" onClick={connectWallet}>Connect Wallet</button>
+          ):(
+            <button className="bg-white text-black px-14 py-4 rounded-full mb-4" >{account}</button>
           )
         }
         {
@@ -126,7 +142,7 @@ return (
     <>
       {
         publications?.map((pub: any, index: number) => (
-          <div key={index} className="py-4 bg-zinc-900 rounded mb-3 px-4">
+          <div key={index} className="py-4 bg-zinc-500 rounded mb-3 px-4">
             <p>{pub.metadata.content}</p>
             {
               pub.metadata?.media[0]?.original && ['image/jpeg', 'image/png'].includes(pub.metadata?.media[0]?.original.mimeType) && (

@@ -61,7 +61,7 @@ module.exports = nextConfig
 
 ## app/layout.tsx
 
-Next, we want to configure our app to use the Lens SDK. 
+Next, we want to configure our app to use the Lens SDK.
 
 This is typically done at the entrypoint to the app, and only needs to be done once.
 
@@ -150,7 +150,7 @@ export default function Home() {
   const { data } = useExploreProfiles({
     limit: 25
   })
-  
+
   return (
     <div className='p-20'>
       <h1 className='text-5xl'>My Lens App</h1>
@@ -350,7 +350,7 @@ return (
     <>
       {
         publications?.map((pub: any, index: number) => (
-          <div key={index} className="py-4 bg-zinc-900 rounded mb-3 px-4">
+          <div key={index} className="py-4 bg-zinc-500 rounded mb-3 px-4">
             <p>{pub.metadata.content}</p>
             {
               pub.metadata?.media[0]?.original && ['image/jpeg', 'image/png'].includes(pub.metadata?.media[0]?.original.mimeType) && (

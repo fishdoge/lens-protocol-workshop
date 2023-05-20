@@ -11,7 +11,8 @@ const nextConfig = {
       'source.unsplash.com',
       'arweave.net',
       'images.lens.phaver.com',
-      ""
+      'nftstorage.link',
+      'media1.giphy.com'
     ],
   },
 }
